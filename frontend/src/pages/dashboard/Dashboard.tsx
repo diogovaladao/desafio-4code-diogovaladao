@@ -1,14 +1,13 @@
 import { Box } from "@mui/material";
 import React from 'react';
 
-import { DataSaida, Origem, Destino } from "../../Components";
+import { DataSaida, Origem, Destino } from "../../shared/components";
 
 export const Dashboard: React.FC = () => {
     return (
         <Box height="100%" display="flex" flexDirection="row" gap={1}>
             <Origem />
             <Destino />
-            <DataSaida/>
         </Box>
     );
 };
