@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from 'react';
 
-import { DataSaida, Origem, Destino } from "../../shared/components";
+import { Origem, Destino } from "../../shared/components";
 
 export const Dashboard: React.FC = () => {
     return (

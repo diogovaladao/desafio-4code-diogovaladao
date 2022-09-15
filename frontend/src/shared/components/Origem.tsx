@@ -1,8 +1,18 @@
 import { Autocomplete, TextField } from "@mui/material";
-import React from 'react';
+import { AeroportosService } from "../services/voos/AeroportosService";
 
 
 export const Origem: React.FC = () => {
+
+    AeroportosService.getAll().then((result) => {
+        if (result instanceof Error) {
+            alert(result.message);
+        } else {
+            console.log(result)
+    
+        }
+    });
+    
 
     const voos = [
         { label: 'Brasília' },
@@ -16,14 +26,17 @@ export const Origem: React.FC = () => {
     ]
 
     return (
-        <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={voos}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Origem" />}
-        />
+        <>
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={voos}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="Origem" />}
+            />
 
+
+        </>
 
     );
 };
