@@ -9,7 +9,6 @@ export const Origem: React.FC = () => {
             alert(result.message);
         } else {
             console.log(result)
-    
         }
     });
     
@@ -26,7 +25,6 @@ export const Origem: React.FC = () => {
     ]
 
     return (
-        <>
             <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -34,9 +32,5 @@ export const Origem: React.FC = () => {
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Origem" />}
             />
-
-
-        </>
-
     );
 };
