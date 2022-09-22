@@ -1,15 +1,12 @@
 import { Api } from "..";
+import { Environment } from "../../environment";
 
 export interface IAeroporto {
-    voo: string;
-    origem: string;
-    destino: string;
-    data_saida: string;
-    saida: string;
-    chegada: string;
-    valor: number;
-
+    nome: string,
+    aeroporto: string,
+    cidade: string
 }
+
 /*export interface IDetalhegemAeroporto {
     voo: string;
     origem: string;
@@ -18,28 +15,26 @@ export interface IAeroporto {
     saida: string;
     chegada: string;
     valor: number;
-}
+}*/
 
 type TAeroportoTotalCount = {
     data: IAeroporto[];
     totalCount: number;
-}*/
+}
 
-const getAll = async (): Promise<IAeroporto | Error> => {
+const getAll = async (page = 1, filter = ''): Promise<TAeroportoTotalCount> => {
     try {
-        const urlRelativa = "/aeroportos";
-        const { data } = await Api.get(urlRelativa);
-
-         if (data) {
-            return data;
+        const urlRelativa = `/aeroportos?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nome_like=${filter}`;
+        const { data, headers } = await Api.get(urlRelativa);
+        return {
+            data,
+            totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
         }
-
-        return new Error('Erro ao listar os registros.')
-        
     } catch (error) {
         console.error(error);
-        return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
+        throw new Error((error as { message: string }).message || 'Erro ao listar os registros.');
     }
+
 };
 
 

@@ -1,19 +1,34 @@
+import { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { AeroportosService } from "../services/voos/AeroportosService";
+import { AeroportosService, IAeroporto } from "../services/voos/AeroportosService";
 
 
-export const Origem: React.FC = () => {
+type listaVoos = {
+    label: string;
+    value: IAeroporto
+}
 
-    AeroportosService.getAll().then((result) => {
-        if (result instanceof Error) {
-            alert(result.message);
-        } else {
-            console.log(result)
-        }
-    });
-    
+export const Origem = () => {
+    const [opcoes, setOpcoes] = useState<listaVoos[]>();
+    const [busca, setBusca] = useState('');
+    const [selectedName, setSelectedName] = useState<string | undefined>(undefined);
 
-    const voos = [
+
+
+    useEffect(() => {
+        AeroportosService.getAll(1, busca).then((result) => {
+            console.log(result);
+            setOpcoes(result.data.map((v) => ({
+                label: v.cidade,
+                value: v
+            })))
+        }).catch(e => alert(e.message));
+    }, [busca]);
+
+
+
+
+    /*const voos = [
         { label: 'Brasília' },
         { label: 'Vitória' },
         { label: 'Maceió' },
@@ -22,15 +37,9 @@ export const Origem: React.FC = () => {
         { label: 'São Paulo - CHG' },
         { label: 'Aracajú' },
         { label: 'Goiânia' },
-    ]
+    ]*/
 
-    return (
-            <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={voos}
-                sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="Origem" />}
-            />
-    );
+    return (<TextField name="teste" fullWidth select>
+        {opcoes?.map(({ label, value }, index) => <option key={index} value={label}>{label}</option>)}
+    </TextField>);
 };
