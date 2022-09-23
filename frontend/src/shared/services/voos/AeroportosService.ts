@@ -24,7 +24,7 @@ type TAeroportoTotalCount = {
 
 const getAll = async (page = 1, filter = ''): Promise<TAeroportoTotalCount> => {
     try {
-        const urlRelativa = `/aeroportos?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nome_like=${filter}`;
+        const urlRelativa = `/aeroportos?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&cidade_like=${filter}`;
         const { data, headers } = await Api.get(urlRelativa);
         return {
             data,

@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { AeroportosService, IAeroporto } from "../services/voos/AeroportosService";
+import { AeroportosService } from "../services/voos/AeroportosService";
+import { useDebounce } from "../hooks";
 
 
 type listaVoos = {
     label: string;
-    value: IAeroporto
 }
 
 export const Origem = () => {
-    const [opcoes, setOpcoes] = useState<listaVoos[]>();
+    const [opcoes, setOpcoes] = useState<listaVoos[]>([]);
     const [busca, setBusca] = useState('');
     const [selectedName, setSelectedName] = useState<string | undefined>(undefined);
+    const { debounce } = useDebounce();
 
 
 
     useEffect(() => {
-        AeroportosService.getAll(1, busca).then((result) => {
-            console.log(result);
-            setOpcoes(result.data.map((v) => ({
-                label: v.cidade,
-                value: v
-            })))
-        }).catch(e => alert(e.message));
-    }, [busca]);
+        debounce(() => {
+            AeroportosService.getAll(1, busca).then((result) => {
+                if (result instanceof Error) {
+                    alert(result.message);
+                } else {
+                    console.log(result);
+                    setOpcoes(result.data.map(voos => ({ label: voos.cidade })))
+                }
+            });
+        });
+    }, [debounce, busca]);
 
 
 
@@ -39,7 +43,16 @@ export const Origem = () => {
         { label: 'Goiânia' },
     ]*/
 
-    return (<TextField name="teste" fullWidth select>
-        {opcoes?.map(({ label, value }, index) => <option key={index} value={label}>{label}</option>)}
-    </TextField>);
+    return (
+        <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={opcoes}
+            //value={autoCompleteSelectedOption}
+            sx={{ width: 300 }}
+            onInputChange={(_, newValue) => setBusca(newValue)}
+            onChange={(_, newValue) => { setSelectedName(newValue?.label); setBusca('') }}
+            renderInput={(params) => <TextField {...params} label="Origem" />}
+        />
+    );
 };
