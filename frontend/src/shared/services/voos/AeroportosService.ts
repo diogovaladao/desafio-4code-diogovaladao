@@ -7,16 +7,6 @@ export interface IAeroporto {
     cidade: string
 }
 
-/*export interface IDetalhegemAeroporto {
-    voo: string;
-    origem: string;
-    destino: string;
-    data_saida: string;
-    saida: string;
-    chegada: string;
-    valor: number;
-}*/
-
 type TAeroportoTotalCount = {
     data: IAeroporto[];
     totalCount: number;

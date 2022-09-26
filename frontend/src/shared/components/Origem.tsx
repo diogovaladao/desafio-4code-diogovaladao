@@ -30,19 +30,6 @@ export const Origem = () => {
     }, [debounce, busca]);
 
 
-
-
-    /*const voos = [
-        { label: 'Brasília' },
-        { label: 'Vitória' },
-        { label: 'Maceió' },
-        { label: 'Belém' },
-        { label: 'Florianópolis' },
-        { label: 'São Paulo - CHG' },
-        { label: 'Aracajú' },
-        { label: 'Goiânia' },
-    ]*/
-
     return (
         <Autocomplete
             disablePortal
